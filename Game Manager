@@ -1,0 +1,76 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+
+public class GameManager : MonoBehaviour
+{
+    //inicia uma singleton
+    #region 
+    public static GameManager Instance; 
+    public int gridLinha = 50; 
+    public int gridColuna = 50; 
+    public float cobraVelocidade = 5.0f; 
+
+    private int[,] jogoGrid; 
+    public List<Vector2> cobraSegmentos; 
+
+    public void Awake() //o método é chamado quando o objeto é inicializado
+    {
+
+        if (Instance == null) 
+        {
+            Instance = this;
+        }
+        else 
+        {
+            Destroy(gameObject);
+        }
+
+        jogoGrid = new int[gridLinha, gridColuna]; 
+
+    cobraSegmentos = new List<Vector2>(); 
+    }
+    #endregion
+    //termina a singleton
+
+
+    public int[,] GetJogoGrid() //esse método retorna o estado atual da grade
+    {
+        return jogoGrid; 
+    }
+     
+    public void ConfigurarJogo(int Linhas, int Colunas, float velocidade) // esse método é para definir as dimensões do jogo, que podem ser alteradas na cena de início(três parâmetros são incluídos: Linhas, Colunas e velocidade)
+    {
+        gridLinha = Linhas;
+        gridColuna = Colunas;
+        cobraVelocidade = velocidade;
+    }
+
+    public void ResetarJogo() //método para resetar e reiniciar o jogo, deixar a lista de segmentos limpa 
+    {
+        cobraSegmentos.Clear(); 
+        cobraSegmentos.Add(new Vector2(0, 0)); 
+
+        void deletaPosicao() //esse método é para quando deletar a posição do player e assim reiniciar o jogo
+        {
+            ReinicioJogo();
+        }
+        
+        void ReinicioJogo() // esse método é para deixar um espaço separado para reiniciar o jogo.
+        {
+            GameObject cobraPlayer = FindObjectOfType<GameObject>(); 
+            if (cobraPlayer != null)
+            {
+                deletaPosicao(); 
+            }
+
+
+            GameObject comida = FindObjectOfType<GameObject>();
+            if (comida != null)
+            {
+                
+            }
+        }
+    }
+}
