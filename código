@@ -1,0 +1,56 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class UIManager : MonoBehaviour //classe UIManager é para controlar a criação e o posicionamento dos objetos
+{
+
+    [SerializeField]
+    TextMeshProUGUI scoreText; 
+    [SerializeField]
+    GameObject gameOverPanel; 
+    [SerializeField]
+    Button restartBotao; 
+    private List<int> scores;  
+
+    private void Start() //método para inicializar o jogo
+    {
+        gameOverPanel.SetActive(false); 
+        scores = new List<int>(); 
+        AtualizarScore(0); 
+        restartBotao.onClick.AddListener(reiniciarJogo); 
+    }
+
+
+    public void AtualizarScore(int pontuacao) //método para atualizar a pontuação
+    {
+        scoreText.text = "Pontos: " + pontuacao.ToString(); 
+        scores.Add(pontuacao); 
+    }
+
+
+    public void MostrarTelaGameOver() //método para mostrar a cena de game over
+    {
+        gameOverPanel.SetActive(true); 
+    }
+
+    public int GetMaiorPontuacao() //método para checar se conteve a pontuacao maior, caso contrário irá retornar 0
+    {
+        if (scores.Count > 0)
+        {
+            return Mathf.Max(scores.ToArray()); 
+        }
+        return 0; 
+    }
+
+    private void reiniciarJogo() //método para reiniciar o jogo
+    {
+        gameOverPanel.SetActive(false);
+        GameManager.Instance.ResetarJogo(); 
+        AtualizarScore(0); 
+    }
+
+
+}
